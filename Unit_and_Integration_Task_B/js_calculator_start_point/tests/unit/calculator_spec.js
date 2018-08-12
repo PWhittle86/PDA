@@ -1,8 +1,6 @@
 var Calculator = require('../../public/js/calculator.js')
 var assert = require('assert')
 
-// - calculator.numberClick()
-// - calculator.operatorClick()
 // - calculator.clearClick()
 
 describe('calculator', function () {
@@ -64,6 +62,30 @@ describe('calculator', function () {
     calculator.operatorClick('+');
     calculator.operatorClick('=');
     assert.equal(calculator.runningTotal, 30);
+  })
+
+  it('can chain multiple operations together', function(){
+    calculator.previousTotal = 10;
+    calculator.add(5);
+    calculator.operatorClick('+');
+    calculator.operatorClick('*');
+    calculator.operatorClick('=');
+    assert.equal(calculator.runningTotal, 900);
+  })
+
+  it('can reset runningTotal via clearClick', function(){
+    calculator.runningTotal = 50;
+    calculator.clearClick();
+    assert.equal(calculator.runningTotal, 0);
+  })
+
+  it('can clear operators and totals via clearclick', function(){
+    calculator.previousOperator = '-';
+    calculator.previousTotal = '10';
+    calculator.runningTotal = 0;
+    calculator.clearClick();
+    assert.equal(calculator.previousTotal, null);
+    assert.equal(calculator.previousOperator, null);
   })
 
 });
