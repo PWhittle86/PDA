@@ -39,10 +39,31 @@ describe('calculator', function () {
     assert.equal(calculator.runningTotal, 5);
   })
 
-  it('can concatenate using numberclick', function(){
-    calculator.runningTotal = 0;
-    calculator.numberClick = 5;
+  it('can accept numbers with numberclick', function(){
+    calculator.numberClick(5);
     assert.equal(calculator.runningTotal, 5);
+  })
+
+  it('can concatenate using numberclick', function(){
+    calculator.previousTotal = 0;
+    calculator.numberClick(5);
+    calculator.numberClick(5);
+    assert.equal(calculator.runningTotal, 55);
+  })
+
+  it('resets runningTotal on numberclick if newTotal is true', function(){
+    calculator.previousTotal = 100;
+    calculator.newTotal = true;
+    calculator.numberClick(5);
+    assert.equal(calculator.runningTotal, 5);
+  })
+
+  it('performs operation on previous total if another operator clicked', function(){
+    calculator.previousTotal = 10;
+    calculator.add(5);
+    calculator.operatorClick('+');
+    calculator.operatorClick('=');
+    assert.equal(calculator.runningTotal, 30);
   })
 
 });
